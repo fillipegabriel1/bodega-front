@@ -4,30 +4,45 @@
   font-family: "Segoe UI", sans-serif;
 }
 
-/* HEADER */
+/* =========================
+   CONTAINER
+========================= */
+
+.dashboard-content {
+  margin-top: 90px;
+
+  padding:
+    35px
+    clamp(20px, 4vw, 40px);
+
+  width: 100%;
+  max-width: 1700px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 35px;
-  flex-wrap: wrap;
-  gap: 15px;
-}
 
-.dashboard-content {
-  margin-top: 90px;
-  padding: 35px;
-  width: 100%;
-  max-width: 1500px;
-  margin-left: auto;
-  margin-right: auto;
+  flex-wrap: wrap;
+
+  gap: 20px;
+
+  margin-bottom: 35px;
 }
 
 .dashboard-content h2 {
-  font-size: 34px;
+  font-size: 38px;
   color: #151551;
   margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .subtitulo {
@@ -35,48 +50,63 @@
   font-size: 15px;
 }
 
-/* GRID DOS CARDS */
+/* =========================
+   GRID PRINCIPAL
+========================= */
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+
+  grid-template-columns:
+    repeat(3, minmax(280px, 1fr));
+
   gap: 25px;
+
+  align-items: stretch;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 
 .card {
+
   position: relative;
+
   overflow: hidden;
 
   background: #ffffff;
 
   padding: 28px;
 
-  border-radius: 18px;
+  border-radius: 20px;
+
+  border: 1px solid #ececec;
 
   box-shadow:
-    0px 4px 15px rgba(0, 0, 0, 0.05),
-    0px 2px 6px rgba(0, 0, 0, 0.03);
+    0px 4px 15px rgba(0,0,0,0.05),
+    0px 2px 6px rgba(0,0,0,0.03);
 
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
-
-  border: 1px solid #ececec;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+
+  transform: translateY(-6px);
 
   box-shadow:
-    0px 10px 25px rgba(0, 0, 0, 0.08),
-    0px 4px 12px rgba(0, 0, 0, 0.04);
+    0px 15px 30px rgba(0,0,0,0.08),
+    0px 5px 15px rgba(0,0,0,0.04);
 }
 
-/* LINHA DECORATIVA */
+/* =========================
+   LINHA SUPERIOR
+========================= */
 
 .card::before {
+
   content: "";
 
   position: absolute;
@@ -90,28 +120,43 @@
   background: linear-gradient(
     90deg,
     #151551,
-    #4a4ad4
+    #4f46e5
   );
 }
 
-/* TITULO CARD */
+/* =========================
+   TÍTULO CARD
+========================= */
 
 .card h3 {
+
   font-size: 15px;
-  font-weight: 600;
+
   color: #666;
+
   margin-bottom: 18px;
+
+  font-weight: 600;
 }
 
-/* VALORES */
+/* =========================
+   VALOR PRINCIPAL
+========================= */
 
 .valor {
-  font-size: 34px;
+
+  font-size: 38px;
+
   font-weight: 700;
+
   letter-spacing: -1px;
+
+  line-height: 1.1;
 }
 
-/* CORES */
+/* =========================
+   CORES
+========================= */
 
 .verde {
   color: #16a34a;
@@ -133,19 +178,29 @@
   color: #ea580c;
 }
 
-/* INFO SECUNDARIA */
+/* =========================
+   TEXTO EXTRA
+========================= */
 
 .info-extra {
-  margin-top: 15px;
+
+  margin-top: 14px;
+
   font-size: 13px;
+
   color: #888;
 }
 
-/* STATUS BADGES */
+/* =========================
+   BADGES
+========================= */
 
 .badge {
+
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
 
   padding: 6px 12px;
@@ -153,6 +208,7 @@
   border-radius: 999px;
 
   font-size: 12px;
+
   font-weight: 600;
 
   margin-top: 12px;
@@ -178,64 +234,190 @@
   color: #1d4ed8;
 }
 
-/* SEÇÃO DE GRÁFICOS */
+/* =========================
+   SEÇÕES
+========================= */
 
 .dashboard-section {
-  margin-top: 40px;
+
+  margin-top: 45px;
 }
 
 .dashboard-section h3 {
+
   font-size: 24px;
+
   color: #151551;
+
   margin-bottom: 20px;
+
+  font-weight: 700;
 }
 
-/* TABELAS */
+/* =========================
+   GRID INFERIOR
+========================= */
+
+.dashboard-grid-bottom {
+
+  display: grid;
+
+  grid-template-columns:
+    2fr 1fr;
+
+  gap: 25px;
+
+  margin-top: 35px;
+}
+
+/* =========================
+   GRÁFICOS
+========================= */
+
+.chart-card {
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 30px;
+
+  border: 1px solid #ececec;
+
+  box-shadow:
+    0px 4px 15px rgba(0,0,0,0.04);
+}
+
+.chart-card h3 {
+
+  margin-bottom: 25px;
+
+  color: #151551;
+
+  font-size: 22px;
+}
+
+/* =========================
+   LISTA EXECUTIVA
+========================= */
+
+.metric-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.metric-item {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: #f8fafc;
+
+  transition: 0.2s ease;
+}
+
+.metric-item:hover {
+
+  background: #eef2ff;
+}
+
+.metric-item strong {
+
+  color: #151551;
+}
+
+.metric-value {
+
+  font-weight: 700;
+
+  color: #2563eb;
+}
+
+/* =========================
+   TABELA
+========================= */
 
 .dashboard-table {
+
   width: 100%;
 
   background: white;
 
-  border-radius: 16px;
+  border-radius: 20px;
 
   overflow: hidden;
 
   border: 1px solid #ececec;
 
-  box-shadow: 0px 4px 15px rgba(0,0,0,0.04);
+  box-shadow:
+    0px 4px 15px rgba(0,0,0,0.04);
 }
 
 .dashboard-table table {
+
   width: 100%;
+
   border-collapse: collapse;
 }
 
 .dashboard-table th {
+
   background: #151551;
+
   color: white;
 
-  padding: 16px;
+  padding: 18px;
 
   text-align: left;
 
   font-size: 14px;
+
+  font-weight: 600;
 }
 
 .dashboard-table td {
+
   padding: 16px;
 
   border-bottom: 1px solid #f1f1f1;
 
   font-size: 14px;
+
   color: #444;
 }
 
 .dashboard-table tr:hover {
+
   background: #fafafa;
 }
 
-/* RESPONSIVIDADE */
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 1400px) {
+
+  .cards {
+    grid-template-columns:
+      repeat(2, minmax(280px, 1fr));
+  }
+
+  .dashboard-grid-bottom {
+    grid-template-columns: 1fr;
+  }
+
+}
 
 @media (max-width: 768px) {
 
@@ -244,15 +426,15 @@
   }
 
   .dashboard-content h2 {
-    font-size: 28px;
-  }
-
-  .valor {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .valor {
+    font-size: 30px;
   }
 
 }
