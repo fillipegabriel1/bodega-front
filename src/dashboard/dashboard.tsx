@@ -10,7 +10,8 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip
+  Tooltip,
+  LabelList
 } from "recharts";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -44,6 +45,12 @@ interface TransacaoData {
   valor: number;
 }
 
+interface ClienteCreditoData {
+  codigo: number;
+  nome: string;
+  saldo: number;
+}
+
 interface DashboardData {
 
   totalRecarga: number;
@@ -67,6 +74,8 @@ interface DashboardData {
   produtosMaisLucrativos?: ProdutoData[];
 
   ultimasTransacoes?: TransacaoData[];
+
+  clientesComCredito?: ClienteCreditoData[];
 
 }
 
@@ -173,7 +182,10 @@ const Dashboard = () => {
             data.produtosMaisLucrativos || [],
 
           ultimasTransacoes:
-            data.ultimasTransacoes || []
+            data.ultimasTransacoes || [],
+
+          clientesComCredito:
+            data.clientesComCredito || []
 
         });
 
@@ -443,7 +455,17 @@ const Dashboard = () => {
                   dataKey="totalVendido"
                   fill="#4f46e5"
                   radius={[8, 8, 0, 0]}
-                />
+                >
+
+                  <LabelList
+                    dataKey="totalVendido"
+                    position="top"
+                    formatter={(value) =>
+                      `R$ ${value}`
+                    }
+                  />
+
+                </Bar>
 
               </BarChart>
 
@@ -601,6 +623,72 @@ const Dashboard = () => {
                         {
                           formatarMoeda(
                             item?.valor
+                          )
+                        }
+
+                      </td>
+
+                    </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+        {/* =========================
+            CLIENTES COM SALDO
+        ========================= */}
+
+        <div className="dashboard-section">
+
+          <h3>
+            Clientes com Saldo Disponível
+          </h3>
+
+          <div className="dashboard-table">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Código</th>
+
+                  <th>Nome</th>
+
+                  <th>Saldo</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                {dados
+                  ?.clientesComCredito
+                  ?.map((cliente, index) => (
+
+                    <tr key={index}>
+
+                      <td>
+                        {cliente.codigo}
+                      </td>
+
+                      <td>
+                        {cliente.nome}
+                      </td>
+
+                      <td>
+
+                        {
+                          formatarMoeda(
+                            cliente.saldo
                           )
                         }
 
