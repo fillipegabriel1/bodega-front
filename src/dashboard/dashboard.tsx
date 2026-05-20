@@ -15,6 +15,10 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+/* =========================
+   TYPES
+========================= */
+
 interface CategoriaData {
   _id: string;
   totalVendido: number;
@@ -29,11 +33,14 @@ interface ProdutoData {
 
 interface TransacaoData {
   clienteId?: {
-    nome: string;
-    codigo: number;
+    nome?: string;
+    codigo?: number;
   };
+
   produto?: string;
+
   categoria?: string;
+
   valor: number;
 }
 
@@ -53,15 +60,19 @@ interface DashboardData {
 
   clientesComSaldo: number;
 
-  vendasPorCategoria: CategoriaData[];
+  vendasPorCategoria?: CategoriaData[];
 
-  produtosMaisVendidos: ProdutoData[];
+  produtosMaisVendidos?: ProdutoData[];
 
-  produtosMaisLucrativos: ProdutoData[];
+  produtosMaisLucrativos?: ProdutoData[];
 
-  ultimasTransacoes: TransacaoData[];
+  ultimasTransacoes?: TransacaoData[];
 
 }
+
+/* =========================
+   COMPONENT
+========================= */
 
 const Dashboard = () => {
 
@@ -71,6 +82,9 @@ const Dashboard = () => {
 
   const [dados, setDados] =
     useState<DashboardData | null>(null);
+
+  const [loading, setLoading] =
+    useState(true);
 
   /* =========================
      LOGOUT
@@ -89,7 +103,7 @@ const Dashboard = () => {
   ========================= */
 
   const formatarMoeda = (
-    valor: number
+    valor: number = 0
   ) => {
 
     return valor.toLocaleString(
@@ -110,6 +124,8 @@ const Dashboard = () => {
 
     try {
 
+      setLoading(true);
+
       const response = await fetch(
         `${API_URL}/api/dashboard`,
         {
@@ -124,15 +140,55 @@ const Dashboard = () => {
 
       if (response.ok) {
 
-        setDados(data);
+        setDados({
+
+          totalRecarga:
+            data.totalRecarga || 0,
+
+          totalDebito:
+            data.totalDebito || 0,
+
+          saldoBodega:
+            data.saldoBodega || 0,
+
+          clientes:
+            data.clientes || 0,
+
+          transacoes:
+            data.transacoes || 0,
+
+          ticketMedio:
+            data.ticketMedio || 0,
+
+          clientesComSaldo:
+            data.clientesComSaldo || 0,
+
+          vendasPorCategoria:
+            data.vendasPorCategoria || [],
+
+          produtosMaisVendidos:
+            data.produtosMaisVendidos || [],
+
+          produtosMaisLucrativos:
+            data.produtosMaisLucrativos || [],
+
+          ultimasTransacoes:
+            data.ultimasTransacoes || []
+
+        });
 
       }
 
     } catch (error) {
 
       console.log(
-        "Erro ao carregar dashboard"
+        "Erro ao carregar dashboard",
+        error
       );
+
+    } finally {
+
+      setLoading(false);
 
     }
 
@@ -148,12 +204,25 @@ const Dashboard = () => {
      LOADING
   ========================= */
 
-  if (!dados) {
+  if (loading) {
 
     return (
-      <p style={{ padding: 40 }}>
-        Carregando dashboard...
-      </p>
+
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+
+        <p>
+          Carregando dashboard...
+        </p>
+
+      </div>
+
     );
 
   }
@@ -161,6 +230,10 @@ const Dashboard = () => {
   return (
 
     <div className="dashboard-page">
+
+      {/* =========================
+          NAVBAR
+      ========================= */}
 
       <nav id="home-bar">
 
@@ -196,6 +269,10 @@ const Dashboard = () => {
 
       </nav>
 
+      {/* =========================
+          CONTENT
+      ========================= */}
+
       <div className="dashboard-content">
 
         {/* =========================
@@ -211,8 +288,8 @@ const Dashboard = () => {
             </h2>
 
             <p className="subtitulo">
-              Controle financeiro e
-              operacional em tempo real
+              Controle financeiro e operacional
+              em tempo real
             </p>
 
           </div>
@@ -234,7 +311,7 @@ const Dashboard = () => {
             <p className="valor verde">
               {
                 formatarMoeda(
-                  dados.totalRecarga
+                  dados?.totalRecarga
                 )
               }
             </p>
@@ -250,7 +327,7 @@ const Dashboard = () => {
             <p className="valor vermelho">
               {
                 formatarMoeda(
-                  dados.totalDebito
+                  dados?.totalDebito
                 )
               }
             </p>
@@ -266,7 +343,7 @@ const Dashboard = () => {
             <p className="valor azul">
               {
                 formatarMoeda(
-                  dados.saldoBodega
+                  dados?.saldoBodega
                 )
               }
             </p>
@@ -280,7 +357,7 @@ const Dashboard = () => {
             </h3>
 
             <p className="valor">
-              {dados.clientes}
+              {dados?.clientes || 0}
             </p>
 
           </div>
@@ -293,7 +370,7 @@ const Dashboard = () => {
 
             <p className="valor laranja">
               {
-                dados.clientesComSaldo
+                dados?.clientesComSaldo || 0
               }
             </p>
 
@@ -306,7 +383,7 @@ const Dashboard = () => {
             </h3>
 
             <p className="valor">
-              {dados.transacoes}
+              {dados?.transacoes || 0}
             </p>
 
           </div>
@@ -320,7 +397,7 @@ const Dashboard = () => {
             <p className="valor roxo">
               {
                 formatarMoeda(
-                  dados.ticketMedio
+                  dados?.ticketMedio
                 )
               }
             </p>
@@ -348,7 +425,7 @@ const Dashboard = () => {
 
               <BarChart
                 data={
-                  dados.vendasPorCategoria
+                  dados?.vendasPorCategoria || []
                 }
               >
 
@@ -387,8 +464,8 @@ const Dashboard = () => {
             <div className="metric-list">
 
               {dados
-                .produtosMaisVendidos
-                .map((produto) => (
+                ?.produtosMaisVendidos
+                ?.map((produto) => (
 
                   <div
                     className="metric-item"
@@ -418,7 +495,7 @@ const Dashboard = () => {
         </div>
 
         {/* =========================
-            PRODUTOS MAIS LUCRATIVOS
+            MAIS LUCRATIVOS
         ========================= */}
 
         <div className="dashboard-section">
@@ -430,8 +507,8 @@ const Dashboard = () => {
           <div className="cards">
 
             {dados
-              .produtosMaisLucrativos
-              .map((produto) => (
+              ?.produtosMaisLucrativos
+              ?.map((produto) => (
 
                 <div
                   className="card"
@@ -493,8 +570,8 @@ const Dashboard = () => {
               <tbody>
 
                 {dados
-                  .ultimasTransacoes
-                  .map((item, index) => (
+                  ?.ultimasTransacoes
+                  ?.map((item, index) => (
 
                     <tr key={index}>
 
@@ -507,14 +584,14 @@ const Dashboard = () => {
 
                       <td>
                         {
-                          item.produto
+                          item?.produto
                           || "-"
                         }
                       </td>
 
                       <td>
                         {
-                          item.categoria
+                          item?.categoria
                           || "-"
                         }
                       </td>
@@ -523,7 +600,7 @@ const Dashboard = () => {
 
                         {
                           formatarMoeda(
-                            item.valor
+                            item?.valor
                           )
                         }
 
