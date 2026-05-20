@@ -11,6 +11,7 @@ interface DashboardData {
   saldoBodega: number;
   clientes: number;
   transacoes: number;
+  ticketMedio: number;
 }
 
 const Dashboard = () => {
@@ -21,8 +22,19 @@ const Dashboard = () => {
   const [dados, setDados] = useState<DashboardData | null>(null);
 
   const handleLogout = () => {
+
     Cookies.remove("token");
     navigate("/login");
+
+  };
+
+  const formatarMoeda = (valor: number) => {
+
+    return valor.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+
   };
 
   const buscarDashboard = async () => {
@@ -30,7 +42,9 @@ const Dashboard = () => {
     try {
 
       const response = await fetch(`${API_URL}/api/dashboard`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       const data = await response.json();
@@ -53,7 +67,15 @@ const Dashboard = () => {
 
   }, []);
 
-  if (!dados) return <p style={{ padding: 40 }}>Carregando...</p>;
+  if (!dados) {
+
+    return (
+      <p style={{ padding: 40 }}>
+        Carregando dashboard...
+      </p>
+    );
+
+  }
 
   return (
 
@@ -61,7 +83,9 @@ const Dashboard = () => {
 
       <nav id="home-bar">
 
-        <div id="brand">BODEGA EAC</div>
+        <div id="brand">
+          BODEGA EAC
+        </div>
 
         <div id="options">
 
@@ -83,43 +107,55 @@ const Dashboard = () => {
 
       <div className="dashboard-content">
 
-        <h2>Dashboard da Bodega</h2>
+        <div className="dashboard-header">
+
+          <div>
+
+            <h2>Dashboard da Bodega</h2>
+
+            <p className="subtitulo">
+              Controle financeiro e operacional em tempo real
+            </p>
+
+          </div>
+
+        </div>
 
         <div className="cards">
 
           <div className="card">
 
-            <h3>Total Recargas</h3>
+            <h3>Total de Créditos</h3>
 
             <p className="valor verde">
-              R$ {dados.totalRecarga.toFixed(2)}
+              {formatarMoeda(dados.totalRecarga)}
             </p>
 
           </div>
 
           <div className="card">
 
-            <h3>Total Vendas</h3>
+            <h3>Total de Vendas</h3>
 
             <p className="valor vermelho">
-              R$ {dados.totalDebito.toFixed(2)}
+              {formatarMoeda(dados.totalDebito)}
             </p>
 
           </div>
 
           <div className="card">
 
-            <h3>Saldo da Bodega</h3>
+            <h3>Saldo Disponível</h3>
 
             <p className="valor azul">
-              R$ {dados.saldoBodega.toFixed(2)}
+              {formatarMoeda(dados.saldoBodega)}
             </p>
 
           </div>
 
           <div className="card">
 
-            <h3>Clientes cadastrados</h3>
+            <h3>Clientes Cadastrados</h3>
 
             <p className="valor">
               {dados.clientes}
@@ -129,10 +165,20 @@ const Dashboard = () => {
 
           <div className="card">
 
-            <h3>Total transações</h3>
+            <h3>Total de Transações</h3>
 
             <p className="valor">
               {dados.transacoes}
+            </p>
+
+          </div>
+
+          <div className="card">
+
+            <h3>Ticket Médio</h3>
+
+            <p className="valor roxo">
+              {formatarMoeda(dados.ticketMedio)}
             </p>
 
           </div>
@@ -144,6 +190,7 @@ const Dashboard = () => {
     </div>
 
   );
+
 };
 
 export default Dashboard;
