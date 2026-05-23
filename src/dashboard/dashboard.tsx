@@ -33,6 +33,7 @@ interface ProdutoData {
 }
 
 interface TransacaoData {
+
   clienteId?: {
     nome?: string;
     codigo?: number;
@@ -43,12 +44,29 @@ interface TransacaoData {
   categoria?: string;
 
   valor: number;
+
 }
 
 interface ClienteCreditoData {
+
   codigo: number;
+
   nome: string;
+
   saldo: number;
+
+}
+
+interface RankingClienteData {
+
+  nome: string;
+
+  codigo: number;
+
+  totalGasto: number;
+
+  totalCompras: number;
+
 }
 
 interface DashboardData {
@@ -76,6 +94,8 @@ interface DashboardData {
   ultimasTransacoes?: TransacaoData[];
 
   clientesComCredito?: ClienteCreditoData[];
+
+  rankingClientes?: RankingClienteData[];
 
 }
 
@@ -185,7 +205,10 @@ const Dashboard = () => {
             data.ultimasTransacoes || [],
 
           clientesComCredito:
-            data.clientesComCredito || []
+            data.clientesComCredito || [],
+
+          rankingClientes:
+            data.rankingClientes || []
 
         });
 
@@ -250,7 +273,7 @@ const Dashboard = () => {
       <nav id="home-bar">
 
         <div id="brand">
-          BODEGA EAC
+          SUPERMARKET
         </div>
 
         <div id="options">
@@ -296,7 +319,7 @@ const Dashboard = () => {
           <div>
 
             <h2>
-              Dashboard da Bodega
+              Dashboard do Supermarket
             </h2>
 
             <p className="subtitulo">
@@ -560,6 +583,84 @@ const Dashboard = () => {
         </div>
 
         {/* =========================
+            RANKING CLIENTES
+        ========================= */}
+
+        <div className="dashboard-section">
+
+          <h3>
+            🏆 Clientes que Mais Compraram
+          </h3>
+
+          <div className="dashboard-table">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Posição</th>
+
+                  <th>Nome</th>
+
+                  <th>Código</th>
+
+                  <th>Total Compras</th>
+
+                  <th>Total Gasto</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                {dados
+                  ?.rankingClientes
+                  ?.map((cliente, index) => (
+
+                    <tr key={index}>
+
+                      <td>
+                        #{index + 1}
+                      </td>
+
+                      <td>
+                        {cliente.nome}
+                      </td>
+
+                      <td>
+                        {cliente.codigo}
+                      </td>
+
+                      <td>
+                        {cliente.totalCompras}
+                      </td>
+
+                      <td>
+
+                        {
+                          formatarMoeda(
+                            cliente.totalGasto
+                          )
+                        }
+
+                      </td>
+
+                    </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+        {/* =========================
             ÚLTIMAS TRANSAÇÕES
         ========================= */}
 
@@ -623,72 +724,6 @@ const Dashboard = () => {
                         {
                           formatarMoeda(
                             item?.valor
-                          )
-                        }
-
-                      </td>
-
-                    </tr>
-
-                ))}
-
-              </tbody>
-
-            </table>
-
-          </div>
-
-        </div>
-
-        {/* =========================
-            CLIENTES COM SALDO
-        ========================= */}
-
-        <div className="dashboard-section">
-
-          <h3>
-            Clientes com Saldo Disponível
-          </h3>
-
-          <div className="dashboard-table">
-
-            <table>
-
-              <thead>
-
-                <tr>
-
-                  <th>Código</th>
-
-                  <th>Nome</th>
-
-                  <th>Saldo</th>
-
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {dados
-                  ?.clientesComCredito
-                  ?.map((cliente, index) => (
-
-                    <tr key={index}>
-
-                      <td>
-                        {cliente.codigo}
-                      </td>
-
-                      <td>
-                        {cliente.nome}
-                      </td>
-
-                      <td>
-
-                        {
-                          formatarMoeda(
-                            cliente.saldo
                           )
                         }
 
