@@ -247,6 +247,18 @@
     0px 4px 15px rgba(0,0,0,0.04);
 
   min-height: 420px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.chart-card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0px 18px 35px rgba(0,0,0,0.07);
 }
 
 .chart-card h3 {
@@ -331,6 +343,18 @@
     0px 4px 15px rgba(0,0,0,0.04);
 
   margin-top: 20px;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.dashboard-table:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0px 18px 35px rgba(0,0,0,0.06);
 }
 
 .dashboard-table table {
@@ -381,28 +405,28 @@
 }
 
 /* =========================
-   RANKING CLIENTES
+   TOP 3 RANKING
 ========================= */
 
-.ranking-top {
-
-  font-weight: 700;
+.dashboard-table tbody tr:nth-child(1) td:first-child {
 
   color: #16a34a;
-}
-
-.ranking-second {
 
   font-weight: 700;
+}
+
+.dashboard-table tbody tr:nth-child(2) td:first-child {
 
   color: #2563eb;
-}
-
-.ranking-third {
 
   font-weight: 700;
+}
+
+.dashboard-table tbody tr:nth-child(3) td:first-child {
 
   color: #ea580c;
+
+  font-weight: 700;
 }
 
 /* =========================
@@ -478,6 +502,35 @@
   .dashboard-table table {
 
     min-width: 600px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .dashboard-content h2 {
+
+    font-size: 24px;
+  }
+
+  .subtitulo {
+
+    font-size: 13px;
+  }
+
+  .card {
+
+    padding: 22px;
+  }
+
+  .valor {
+
+    font-size: 26px;
+  }
+
+  .dashboard-section h3 {
+
+    font-size: 20px;
   }
 
 }

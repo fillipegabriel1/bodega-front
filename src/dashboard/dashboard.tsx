@@ -208,7 +208,12 @@ const Dashboard = () => {
             data.clientesComCredito || [],
 
           rankingClientes:
-            data.rankingClientes || []
+            (data.rankingClientes || [])
+              .filter(
+                (cliente: RankingClienteData) =>
+                  cliente.nome !==
+                  "Felipe Gabriel"
+              )
 
         });
 
@@ -643,6 +648,72 @@ const Dashboard = () => {
                         {
                           formatarMoeda(
                             cliente.totalGasto
+                          )
+                        }
+
+                      </td>
+
+                    </tr>
+
+                ))}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+        {/* =========================
+            CLIENTES COM SALDO
+        ========================= */}
+
+        <div className="dashboard-section">
+
+          <h3>
+            Clientes com Saldo Disponível
+          </h3>
+
+          <div className="dashboard-table">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Código</th>
+
+                  <th>Nome</th>
+
+                  <th>Saldo</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                {dados
+                  ?.clientesComCredito
+                  ?.map((cliente, index) => (
+
+                    <tr key={index}>
+
+                      <td>
+                        {cliente.codigo}
+                      </td>
+
+                      <td>
+                        {cliente.nome}
+                      </td>
+
+                      <td>
+
+                        {
+                          formatarMoeda(
+                            cliente.saldo
                           )
                         }
 
