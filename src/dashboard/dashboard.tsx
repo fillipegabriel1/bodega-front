@@ -278,7 +278,7 @@ const Dashboard = () => {
       <nav id="home-bar">
 
         <div id="brand">
-          SUPERMARKET
+          BODEGA EAC
         </div>
 
         <div id="options">
@@ -324,7 +324,7 @@ const Dashboard = () => {
           <div>
 
             <h2>
-              Dashboard do Supermarket
+              Dashboard da Bodega
             </h2>
 
             <p className="subtitulo">
