@@ -209,12 +209,6 @@ const Dashboard = () => {
 
           rankingClientes:
             (data.rankingClientes || [])
-              .filter(
-                (cliente: RankingClienteData) =>
-                  cliente.nome !==
-                  "Felipe Gabriel" && cliente.nome !== "Arthur Pontes" && cliente.nome !== "TesteFinal"
-              )
-
         });
 
       }
