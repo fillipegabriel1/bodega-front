@@ -212,7 +212,7 @@ const Dashboard = () => {
               .filter(
                 (cliente: RankingClienteData) =>
                   cliente.nome !==
-                  "Felipe Gabriel"
+                  "Felipe Gabriel" && cliente.nome !== "Arthur Pontes" && cliente.nome !== "TesteFinal"
               )
 
         });
